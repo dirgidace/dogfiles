@@ -1,0 +1,210 @@
+set ratios 1:2:3
+set cleaner ~/.config/lf/cleaner
+set previewer ~/.config/lf/preview
+# Basic Settings
+set hidden true
+set ignorecase true
+set icons true
+
+# Custom Functions
+cmd mkdir ${{
+  printf "Directory Name: "
+  read ans
+  mkdir $ans
+}}
+
+cmd mkfile ${{
+  printf "File Name: "
+  read ans
+  $EDITOR $ans
+}}
+
+cmd chmod ${{
+  printf "Mode Bits: "
+  read ans
+
+  for file in "$fx"
+  do
+    sudo chmod $ans $file
+  done
+
+  lf -remote 'send reload'
+}}
+
+cmd zip %zip -r "$f" "$f"
+cmd tar %tar cvf "$f.tar" "$f"
+cmd targz %tar cvzf "$f.tar.gz" "$f"
+cmd tarbz2 %tar cjvf "$f.tar.bz2" "$f"
+
+cmd sudomkfile ${{
+  printf "File Name: "
+  read ans
+  sudo $EDITOR $ans
+}}
+
+cmd sudoopenfile %sudo $EDITOR "$f"
+
+cmd gallery %sxiv *
+cmd makeinstall %sudo make install
+
+cmd mdpres %pandoc "$f" -t beamer -o "$f".pdf
+
+# cmd setwallpaper ${{
+#     cp "$f" ~/.config/wall.jpg
+#     xwallpaper --zoom "$f"
+#     betterlockscreen -u "$f" --fx
+# }}
+
+# Archive bindings
+cmd unarchive ${{
+    set -f
+    case $f in
+        *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar xjvf $f;;
+        *.tar.gz|*.tgz) tar xzvf $f;;
+        *.tar.xz|*.txz) tar xJvf $f;;
+        *.zip) unzip $f;;
+        *.rar) unrar x $f;;
+        *.7z) 7z x $f;;
+    esac
+}}
+
+# define a custom 'open' command
+# This command is called when current file is not a directory. You may want to
+# use either file extensions and/or mime types here. Below uses an editor for
+# text files and a file opener for the rest.
+# cmd open ${{
+#     case $(file --mime-type "$f" -bL) in
+#         text/*|application/json) $EDITOR "$f";;
+#         *) xdg-open "$f" ;;
+#     esac
+# }}
+
+cmd open ${{
+  case $(file --mime-type "$(readlink -f $f)" -b) in
+    application/pdf) zathura $f;;
+    text/*|application/json) $EDITOR $f;;
+    image/*) sxiv "$f";;
+    video/*) mpv $f;;
+    # application/vnd.openxmlformats-officedocument.spreadsheetml.sheet) localc $fx ;;
+    # image/vnd.djvu|application/pdf|application/octet-stream|application/postscript) setsid -f zathura $fx >/dev/null 2>&1 ;;
+    # text/*|application/json|inode/x-empty|application/x-subrip) $EDITOR $fx;;
+    # image/x-xcf) setsid -f gimp $f >/dev/null 2>&1 ;;
+    # image/svg+xml) display -- $f ;;
+
+    # audio/*|video/x-ms-asf) mpv --audio-display=no $f ;;
+    # video/*) setsid -f mpv $f -quiet >/dev/null 2>&1 ;;
+    # application/pdf|application/vnd.djvu|application/epub*) setsid -f zathura $fx >/dev/null 2>&1 ;;
+    # application/pgp-encrypted) $EDITOR $fx ;;
+    # application/vnd.openxmlformats-officedocument.wordprocessingml.document|application/vnd.oasis.opendocument.text) setsid -f lowriter $fx >/dev/null 2>&1 ;;
+    # application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|application/octet-stream|application/vnd.oasis.opendocument.spreadsheet|application/vnd.oasis.opendocument.spreadsheet-template) setsid -f localc $fx >/dev/null 2>&1 ;;
+    # application/vnd.openxmlformats-officedocument.presentationml.presentation|application/vnd.oasis.opendocument.presentation-template|application/vnd.oasis.opendocument.presentation|application/vnd.ms-powerpoint) setsid -f loimpress $fx >/dev/null 2>&1 ;;
+    # application/vnd.oasis.opendocument.graphics|application/vnd.oasis.opendocument.graphics-template) setsid -f lodraw $fx >/dev/null 2>&1 ;;
+    # application/vnd.oasis.opendocument.formula) setsid -f lomath $fx >/dev/null 2>&1 ;;
+    # application/vnd.oasis.opendocument.database) setsid -f lobase $fx >/dev/null 2>&1 ;;
+    # *) for f in $fx; do setsid -f $OPENER $f >/dev/null 2>&1; done;;
+  esac
+}}
+
+
+# define a custom 'rename' command without prompt for overwrite
+cmd rename ${{
+  file=$(printf "$f")
+  %[ -e $1 ] && printf "file exists" || mv "$file" $1
+}}
+cmd stripspace ${{
+  file=$(printf "$f")
+  mv "$file" "${file//[[:space:]]/_}"
+
+}}
+# Trash cli bindings
+cmd trash ${{
+  files=$(printf "$fx" | tr '\n' ';')
+  while [ "$files" ]; do
+    # extract the substring from start of string up to delimiter.
+    # this is the first "element" of the string.
+    file=${files%%;*}
+
+    trash-put "$(basename "$file")"
+    # if theres only one element left, set `files` to an empty string.
+    # this causes us to exit this `while` loop.
+    # else, we delete the first "element" of the string from files, and move onto the next.
+    if [ "$files" = "$file" ]; then
+      files=''
+    else
+      files="${files#*;}"
+    fi
+  done
+}}
+
+cmd clear_trash %trash-empty
+
+cmd restore_trash ${{
+  trash-restore
+}}
+
+
+# Bindings
+# Remove some defaults
+map m
+map o
+map n
+map "'"
+map '"'
+map d
+map t
+map c
+
+# File Openers
+map oe $$EDITOR "$f"
+map og gallery
+
+# Archive Mappings
+map az zip
+map at tar
+map ag targz
+map ab targz
+map au unarchive
+
+# Trash Mappings
+map dd trash
+map tc clear_trash
+map tr restore_trash
+
+map ss stripspace
+
+# Basic Functions
+map . set hidden!
+map DD delete
+map p paste
+map x cut
+map y copy
+map <enter> open
+map mf mkfile
+map mr sudomkfile
+map md mkdir
+# map ms $mkscript
+map ch chmod
+# map bg setwallpaper
+# map o open_config
+# map br $vimv $fx
+map r push :rename<space> 
+map H top
+map L bottom
+map R reload
+map C clear
+map U unselect
+map mi makeinstall
+map mp mdpres
+
+# execute current file (must be executable)
+map X !$f
+
+# Movement
+map gD cd ~/documents
+map gd cd ~/downloads
+map gp cd ~/pictures
+map gc cd ~/.config
+map gr cd ~/repos
+map gv cd ~/videos
+map gs cd ~/.local/bin
+map gt cd ~/.local/share/Trash/files
