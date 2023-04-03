@@ -35,5 +35,5 @@ for battery in /sys/class/power_supply/BAT?*; do
     esac
 
     # Prints the info
-    echo -e "$status$capacity% \x03"
+    echo -e "$status$capacity%\x03"
 done && echo

@@ -1,0 +1,12 @@
+[START][2023-04-03 10:57:39] LSP logging initiated
+[ERROR][2023-04-03 10:57:39] ...lsp/handlers.lua:485	"Your workspace is set to `/home/dirgi`. Lua language server refused to load this directory. Please check your configuration.[learn more here](https://github.com/LuaLS/lua-language-server/wiki/FAQ#why-is-the-server-scanning-the-wrong-folder)"
+[START][2023-04-03 11:08:59] LSP logging initiated
+[ERROR][2023-04-03 11:08:59] ...lsp/handlers.lua:485	"Your workspace is set to `/home/dirgi`. Lua language server refused to load this directory. Please check your configuration.[learn more here](https://github.com/LuaLS/lua-language-server/wiki/FAQ#why-is-the-server-scanning-the-wrong-folder)"
+[START][2023-04-03 11:11:51] LSP logging initiated
+[ERROR][2023-04-03 11:11:51] ...lsp/handlers.lua:485	"Your workspace is set to `/home/dirgi`. Lua language server refused to load this directory. Please check your configuration.[learn more here](https://github.com/LuaLS/lua-language-server/wiki/FAQ#why-is-the-server-scanning-the-wrong-folder)"
+[START][2023-04-03 11:14:32] LSP logging initiated
+[ERROR][2023-04-03 11:14:32] ...lsp/handlers.lua:485	"Your workspace is set to `/home/dirgi`. Lua language server refused to load this directory. Please check your configuration.[learn more here](https://github.com/LuaLS/lua-language-server/wiki/FAQ#why-is-the-server-scanning-the-wrong-folder)"
+[START][2023-04-03 11:19:15] LSP logging initiated
+[ERROR][2023-04-03 11:19:15] ...lsp/handlers.lua:485	"Your workspace is set to `/home/dirgi`. Lua language server refused to load this directory. Please check your configuration.[learn more here](https://github.com/LuaLS/lua-language-server/wiki/FAQ#why-is-the-server-scanning-the-wrong-folder)"
+[START][2023-04-03 11:31:52] LSP logging initiated
+[ERROR][2023-04-03 11:31:52] ...lsp/handlers.lua:485	"Your workspace is set to `/home/dirgi`. Lua language server refused to load this directory. Please check your configuration.[learn more here](https://github.com/LuaLS/lua-language-server/wiki/FAQ#why-is-the-server-scanning-the-wrong-folder)"
