@@ -1,0 +1,19 @@
+#!/bin/sh
+
+interfaces=$(nmcli -t -f name connection show --active | grep -v lo)
+
+if echo "$interfaces" | grep -q "Wired connection *"
+then
+    icon="\x08󰌗\x01"
+    name=""
+elif [[ ! -z $(echo "$interfaces" | grep -v lo) ]] 
+then
+    icon="\x08\x01"
+    name=" $(echo "$interfaces" | grep -v lo)"  
+else
+    icon="\x08󱛅\x01"
+    name=""
+fi
+
+echo -e " $icon$name"
+

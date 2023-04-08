@@ -1,0 +1,7 @@
+#!/bin/sh
+# Displays RAM usage.
+# used=$(free --mebi | awk 'NR==2 {printf ("%2.2f\n", ($3 / 1024))}')
+# total=$(free --mebi | awk 'NR==2 {printf ("%2.2f\n", ($2 / 1024))}')
+
+# percentage=$(awk '{printf ("%2.2f\n", ($used / $total))}')
+echo -e " \x09 \x01$(free --mebi | awk 'NR==2 {printf ("%2.2f\n", ($3 / 1024))}') / $(free --mebi | awk 'NR==2 {printf ("%2.2fGiB\n", ($2 / 1024))}')"

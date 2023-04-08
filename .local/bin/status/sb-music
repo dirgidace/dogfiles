@@ -1,0 +1,18 @@
+#!/bin/sh
+# Display currently playing music metadata.
+
+set -- --player spotify,mpv
+icon=""
+if status="$(playerctl "$@" status 2>&1)" && [ "$status" != "Stopped" ]; then
+    [ "$status" = "Paused" ] && icon="\x06\x03"
+    currentSong="$(playerctl "$@" metadata --format "{{title}}")"
+    currentArtist="$(playerctl "$@" metadata --format "{{artist}}")"
+else
+    [ "$(mpc status "%state%")" = "paused" ] && icon=""
+    currentSong="$(mpc current -f "%title%")"
+    currentArtist="$(mpc current -f "%artist%]")"
+fi
+
+[ -z "$currentSong" ] && exit
+
+echo -e "[ \x08$icon\x01 $currentSong \x08-\x01 $currentArtist ]"

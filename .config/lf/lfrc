@@ -48,7 +48,8 @@ cmd gallery %sxiv *
 cmd makeinstall %sudo make install
 
 cmd mdpres %pandoc "$f" -t beamer -o "$f".pdf
-
+cmd mdpdf %pandoc "$f" -o "$f".pdf -V geometry:margin=1in
+cmd test %echo "$fx"
 # cmd setwallpaper ${{
 #     cp "$f" ~/.config/wall.jpg
 #     xwallpaper --zoom "$f"
@@ -194,7 +195,9 @@ map R reload
 map C clear
 map U unselect
 map mi makeinstall
-map mp mdpres
+map ms mdpres
+map mp mdpdf
+map ax test
 
 # execute current file (must be executable)
 map X !$f

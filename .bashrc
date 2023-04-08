@@ -4,14 +4,13 @@
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
-
-export PATH="$PATH:$HOME/.local/bin"
-
+# Add local bin and subfolders to PATH
+PATH=$PATH$( find $HOME/.local/bin -type d -printf ":%p" )
 # Alias
 alias lf="lfrun"
 
 # Default Programs
-export EDITOR="vim"
+export EDITOR="nvim"
 export TERMINAL="st"
 export BROWSER="waterfox-g4"
 
